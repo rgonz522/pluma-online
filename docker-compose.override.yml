@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  webapp:
+    container_name: pluma-online
+    build:
+      context: ./
+      dockerfile: Dockerfile-devel
+    depends_on:
+      - database
+      - redis
+    networks:
+      - web
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./:/app
+    restart: unless-stopped
+    environment:
+      APP_HOST: ${APP_HOST}
+      APP_SETUP_PASSWORD: ${APP_SETUP_PASSWORD}
+      APP_ADMIN_EMAIL: ${APP_ADMIN_EMAIL}
+      APP_ADMIN_PASSWORD: ${APP_ADMIN_PASSWORD}
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
